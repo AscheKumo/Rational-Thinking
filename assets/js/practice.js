@@ -10,6 +10,53 @@ function qsa(sel, root=document){ return [...root.querySelectorAll(sel)]; }
 
 const byId = new Map(ENTRIES.map(e => [e.id, e]));
 
+function normText(s){
+  return String(s || "")
+    .toLowerCase()
+    .replace(/[’']/g, "'")
+    .replace(/[^a-z0-9\s']/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+const entryByName = (() => {
+  const m = new Map();
+  for(const e of ENTRIES){
+    m.set(normText(e.title), e);
+    for(const a of (e.aliases || [])) m.set(normText(a), e);
+  }
+  return m;
+})();
+
+function findConceptForChoiceText(choiceText){
+  const n = normText(choiceText);
+  if(!n) return null;
+
+  // Prefer exact title/alias matches.
+  const direct = entryByName.get(n);
+  if(direct) return direct;
+
+  // Then try substring matches (helps when choices are like “Use Occam’s Razor”).
+  for(const [name, entry] of entryByName.entries()){
+    if(name && (n === name || n.includes(name))) return entry;
+  }
+  return null;
+}
+
+function summarizeEntry(e){
+  const one = typeof e.one_liner === "string" ? e.one_liner.trim() : "";
+  const def = typeof e.definition === "string" ? e.definition.trim() : "";
+  const when = typeof e.when_it_shows_up === "string" ? e.when_it_shows_up.trim() : "";
+
+  const parts = [];
+  if(one) parts.push(one);
+  if(def && def !== one) parts.push(def);
+  if(when) parts.push(`Shows up: ${when}`);
+
+  // Keep it fast and scannable.
+  return parts.slice(0, 2);
+}
+
 function loadStats(){
   try{
     const raw = localStorage.getItem(LS_STATS);
@@ -75,22 +122,60 @@ function renderQuestion(q, index, total){
   const box = qs("#question");
   const scorePill = qs("#scorePill");
 
+  const related = (q.related_ids || [])
+    .map(id => byId.get(id))
+    .filter(Boolean);
+
+  const defaultConcept = related[0] || null;
+
   box.innerHTML = `
     <div class="muted">Question ${index+1} / ${total}</div>
     <p class="question__prompt">${escapeHtml(q.prompt)}</p>
 
     <div class="choices">
-      ${q.choices.map((c,i)=>`
-        <button class="choice" type="button" data-i="${i}">
-          ${escapeHtml(c)}
-        </button>
-      `).join("")}
+      ${q.choices.map((c,i)=>{
+        const concept = findConceptForChoiceText(c) || defaultConcept;
+        const conceptLines = concept ? summarizeEntry(concept) : [];
+        const cid = `concept-${index}-${i}`;
+        return `
+          <div class="choiceWrap">
+            <div class="choiceRow">
+              <button class="choice" type="button" data-i="${i}">
+                ${escapeHtml(c)}
+              </button>
+              <button class="smallbtn choiceConcept" type="button" data-target="${cid}" ${concept ? "" : "disabled"}>
+                Reveal Concept
+              </button>
+            </div>
+            ${concept ? `
+              <div class="conceptCard conceptCard--inline" id="${cid}" hidden>
+                <div class="conceptCard__top">
+                  <div class="conceptCard__k">Concept</div>
+                  <a class="smallbtn" href="./library.html#${escapeHtml(concept.id)}">Open in Library</a>
+                </div>
+                <div class="conceptCard__title">${escapeHtml(concept.title)}</div>
+                ${conceptLines.map(line => `<div class="conceptCard__line">${escapeHtml(line)}</div>`).join("")}
+              </div>
+            ` : ""}
+          </div>
+        `;
+      }).join("")}
     </div>
 
     <div class="explain" id="explain" hidden></div>
   `;
 
   const explain = qs("#explain", box);
+
+  qsa(".choiceConcept", box).forEach(btn => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.target;
+      const card = id ? qs(`#${CSS.escape(id)}`, box) : null;
+      if(!card) return;
+      card.hidden = !card.hidden;
+      btn.textContent = card.hidden ? "Reveal Concept" : "Hide Concept";
+    });
+  });
 
   const onPick = (i) => {
     qsa(".choice", box).forEach(b => b.disabled = true);
@@ -99,6 +184,25 @@ function renderQuestion(q, index, total){
     const choiceBtns = qsa(".choice", box);
     choiceBtns[i].classList.add(correct ? "is-correct" : "is-wrong");
     choiceBtns[q.answer].classList.add("is-correct");
+
+    // Session score + missed concepts
+    session.answered += 1;
+    if(correct){
+      session.correct += 1;
+    }else{
+      const chosenText = q.choices?.[i] ?? "";
+      const correctText = q.choices?.[q.answer] ?? "";
+      const chosenEntry = findConceptForChoiceText(chosenText);
+      const correctEntry = findConceptForChoiceText(correctText);
+
+      session.misses.push({
+        prompt: q.prompt,
+        chosenText,
+        correctText,
+        chosenId: chosenEntry?.id || null,
+        correctId: correctEntry?.id || null
+      });
+    }
 
     // Stats
     const s = loadStats();
@@ -111,15 +215,10 @@ function renderQuestion(q, index, total){
     }
     saveStats(s);
 
-    // Score pill updates handled by session logic
     scorePill.textContent = `Score: ${session.correct}`;
 
     // Explanation + links
     explain.hidden = false;
-
-    const related = (q.related_ids || [])
-      .map(id => byId.get(id))
-      .filter(Boolean);
 
     // Auto-suggest pinning on wrong answers (gentle but effective)
     const pins = getPins();
@@ -129,7 +228,7 @@ function renderQuestion(q, index, total){
       <div><strong>${correct ? "Correct." : "Not quite."}</strong> ${escapeHtml(q.explanation)}</div>
       ${related.length ? `
         <div class="explain__meta">
-          ${related.map(e => `<a class="smallbtn" href="./library.html#${escapeHtml(e.type==="bias"?"biases":e.type==="tool"?"tools":e.type+"s")}">${escapeHtml(e.title)}</a>`).join("")}
+          ${related.map(e => `<a class="smallbtn" href="./library.html#${escapeHtml(e.id)}">${escapeHtml(e.title)}</a>`).join("")}
         </div>` : ""}
       ${pinTargets.length ? `
         <div class="explain__meta">
@@ -182,6 +281,8 @@ function startSession(){
     questions,
     idx: 0,
     correct: 0,
+    answered: 0,
+    misses: [],
     ended: false,
     next(){
       if(this.ended) return;
@@ -214,21 +315,104 @@ function endSession(completed){
 
   const s = loadStats();
   const acc = s.answered ? Math.round((s.correct / s.answered) * 100) : 0;
+  const sessAnswered = Number(session.answered || 0);
+  const sessCorrect = Number(session.correct || 0);
+  const sessAcc = sessAnswered ? Math.round((sessCorrect / sessAnswered) * 100) : 0;
   renderStats();
 
   const box = qs("#question");
+
+  const missRows = Array.isArray(session.misses) ? session.misses : [];
+  const conceptIds = new Set();
+  for(const m of missRows){
+    if(m?.chosenId) conceptIds.add(m.chosenId);
+    if(m?.correctId) conceptIds.add(m.correctId);
+  }
+  const missedIds = [...conceptIds].filter(id => byId.has(id));
+  const pins = getPins();
+  const missedUnpinned = missedIds.filter(id => !pins.includes(id));
+
   box.innerHTML = `
-    <h3>Session complete</h3>
-    <p class="lead">Local lifetime accuracy: <strong>${acc}%</strong></p>
+    <h3>${completed ? "Session complete" : "Session ended early"}</h3>
+    <p class="lead">Session score: <strong>${sessCorrect}</strong> / <strong>${sessAnswered}</strong> • Accuracy: <strong>${sessAcc}%</strong></p>
+    <p class="muted">Local lifetime accuracy: <strong>${acc}%</strong></p>
     <p class="muted">
       Best practice: pin the 1–3 concepts you missed and revisit them tomorrow. Recognition is built by spaced repetition.
     </p>
+
+    ${missRows.length ? `
+      <details class="missedDetails">
+        <summary>View missed concepts (${missRows.length})</summary>
+
+        <div class="missedBlock">
+          ${missRows.map((m, idx) => `
+            <div class="missedQ">
+              <div class="missedQ__prompt"><strong>Miss ${idx+1}:</strong> ${escapeHtml(m.prompt)}</div>
+              <div class="missedQ__answers">
+                <div class="missedQ__a"><span class="muted">Your answer:</span> ${escapeHtml(m.chosenText || "")}</div>
+                <div class="missedQ__a"><span class="muted">Correct answer:</span> ${escapeHtml(m.correctText || "")}</div>
+              </div>
+            </div>
+          `).join("")}
+        </div>
+
+        ${missedIds.length ? `
+          <div class="missedPins">
+            <div class="muted">Pin concepts (deduped):</div>
+            <div class="explain__meta">
+              ${missedIds.map(id => {
+                const e = byId.get(id);
+                if(!e) return "";
+                const already = pins.includes(id);
+                return `
+                  <button class="smallbtn" data-pin="${escapeHtml(id)}" type="button" ${already ? "disabled" : ""}>
+                    ${already ? "Pinned" : `Pin “${escapeHtml(e.title)}”`}
+                  </button>
+                `;
+              }).join("")}
+            </div>
+          </div>
+        ` : ""}
+      </details>
+    ` : ""}
+
     <div class="card__foot">
       <a class="btn btn--small" href="./library.html">Review Library</a>
       <a class="btn btn--small btn--ghost" href="./toolkit.html">Open Toolkit</a>
+      ${missedUnpinned.length ? `<button class="btn btn--small" id="pinMissed" type="button">Pin missed concepts (${missedUnpinned.length})</button>` : ""}
       <button class="btn btn--small" id="restart" type="button">Start another</button>
     </div>
   `;
+
+  const pinMissedBtn = qs("#pinMissed", box);
+  if(pinMissedBtn){
+    pinMissedBtn.addEventListener("click", () => {
+      const current = getPins();
+      const merged = [...current];
+      for(const id of missedUnpinned){
+        if(!merged.includes(id)) merged.push(id);
+      }
+      setPins(merged);
+      pinMissedBtn.textContent = `Pinned ${missedUnpinned.length}`;
+      pinMissedBtn.disabled = true;
+      pinMissedBtn.classList.add("is-on");
+    });
+  }
+
+  qsa("[data-pin]", box).forEach(btn => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.pin;
+      if(!id) return;
+      const p = getPins();
+      if(!p.includes(id)){
+        setPins([...p, id]);
+      }
+      btn.textContent = "Pinned";
+      btn.disabled = true;
+      btn.classList.add("is-on");
+    });
+  });
+
   qs("#restart").addEventListener("click", () => startSession());
 }
 

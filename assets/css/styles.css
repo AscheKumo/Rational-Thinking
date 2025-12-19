@@ -654,6 +654,24 @@ details.entry summary::-webkit-details-marker{ display:none; }
   display:grid;
   gap:10px;
 }
+
+.choiceWrap{
+  display:grid;
+  gap:8px;
+}
+
+.choiceRow{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+.choiceRow .choice{
+  flex:1;
+  min-width:0;
+}
+
+.choiceConcept{ white-space:nowrap; }
 .choice{
   text-align:left;
   padding:12px;
@@ -680,6 +698,50 @@ details.entry summary::-webkit-details-marker{ display:none; }
   flex-wrap:wrap;
   margin-top:10px;
 }
+
+.conceptCard{
+  margin-top:10px;
+  border:1px solid var(--stroke);
+  border-radius:16px;
+  padding:12px;
+  background: color-mix(in oklab, var(--panel) 55%, transparent);
+  color:var(--muted);
+}
+
+.conceptCard--inline{ margin-top:0; }
+.conceptCard__top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:8px;
+}
+.conceptCard__k{ font-size:12px; color:var(--faint); }
+.conceptCard__title{ font-weight:700; color:var(--text); margin-bottom:6px; }
+.conceptCard__line{ line-height:1.6; }
+
+.missedDetails{
+  margin-top:12px;
+  border:1px solid var(--stroke);
+  border-radius:16px;
+  padding:10px 12px;
+  background: transparent;
+}
+.missedDetails > summary{
+  cursor:pointer;
+  color:var(--text);
+  font-weight:650;
+}
+.missedBlock{ margin-top:10px; display:grid; gap:10px; }
+.missedQ{
+  border:1px solid var(--stroke);
+  border-radius:16px;
+  padding:12px;
+  background: transparent;
+}
+.missedQ__prompt{ color:var(--text); line-height:1.5; }
+.missedQ__answers{ margin-top:8px; display:grid; gap:6px; color:var(--muted); }
+.missedPins{ margin-top:10px; }
 
 .stats{
   display:grid;
