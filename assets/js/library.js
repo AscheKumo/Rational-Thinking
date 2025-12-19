@@ -98,14 +98,14 @@ function renderCard(e){
 
   const relHtml = rel.length
     ? `<div class="kv"><div class="kv__k">Related</div>
-         <div class="kv__v">${rel.map(x => `<span class="tag">${escapeHtml(x.title)}</span>`).join(" ")}</div>
+         <div class="kv__v relTags">${rel.map(x => `<a class="tag tag--link" href="#${escapeHtml(x.id)}" title="Jump to ${escapeHtml(x.title)}">${escapeHtml(x.title)}</a>`).join("")}</div>
        </div>`
     : "";
 
   const tags = (e.tags||[]).slice(0, 10).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join("");
 
   return `
-  <article class="cardItem" data-id="${escapeHtml(e.id)}">
+  <article class="cardItem" data-id="${escapeHtml(e.id)}" id="${escapeHtml(e.id)}">
     <div class="cardItem__top">
       <div>
         <span class="badge ${badgeClass(e.type)}">${escapeHtml(e.type)}</span>

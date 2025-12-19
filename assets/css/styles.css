@@ -442,12 +442,40 @@ a.link:hover{ text-decoration-color: var(--accent); }
   margin-top:10px;
 }
 .tag{
+  display:inline-flex;
+  align-items:center;
   font-size:11px;
   padding:6px 8px;
   border-radius:999px;
   border:1px solid var(--stroke);
   color:var(--faint);
   background: transparent;
+  line-height:1;
+  white-space:nowrap;
+  max-width:100%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.relTags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+
+.tag--link{ cursor:pointer; }
+.tag--link:hover{ border-color: var(--stroke2); color: var(--text); }
+
+@keyframes targetPulse {
+  0%{ box-shadow: 0 0 0 0 var(--stroke2); }
+  30%{ box-shadow: 0 0 0 3px var(--stroke2); }
+  100%{ box-shadow: 0 0 0 0 var(--stroke2); }
+}
+
+.cardItem:target{
+  scroll-margin-top: 90px;
+  animation: targetPulse 1100ms ease-out 1;
+  box-shadow: 0 0 0 2px var(--stroke2);
 }
 
 .cardItem__actions{
