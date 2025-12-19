@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ClearMind Atlas — Rational Thinking, Learning, and Intellectual Self-Defense</title>
+  <meta name="description" content="A modern, interactive static knowledge base for razors, fallacies, cognitive biases, and thinking tools — plus practice drills." />
+  <link rel="stylesheet" href="./assets/css/styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <div class="topbar__inner">
+      <button class="iconbtn" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="sidedrawer">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+
+      <a class="brand" href="./index.html">
+        <span class="brand__mark" aria-hidden="true">◈</span>
+        <span class="brand__name">ClearMind Atlas</span>
+        <span class="brand__tag">Rational thought • learning • intellectual self-defense</span>
+      </a>
+
+      <div class="topbar__actions">
+        <button class="pill" id="themeToggle" type="button" aria-label="Toggle dark mode">
+          <span class="pill__icon" aria-hidden="true">☾</span>
+          <span class="pill__text">Theme</span>
+        </button>
+        <a class="pill pill--ghost" href="./toolkit.html">
+          <span class="pill__icon" aria-hidden="true">⟡</span>
+          <span class="pill__text">My Toolkit</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <aside class="sidedrawer" id="sidedrawer" aria-hidden="true">
+    <nav class="nav">
+      <a class="nav__link is-active" href="./index.html">Home</a>
+      <a class="nav__link" href="./library.html">Library</a>
+      <a class="nav__link" href="./practice.html">Practice Lab</a>
+      <a class="nav__link" href="./toolkit.html">My Toolkit</a>
+      <a class="nav__link" href="./about.html">About / Method</a>
+
+      <div class="nav__divider"></div>
+
+      <a class="nav__link nav__link--sub" href="./library.html#razors">Razors</a>
+      <a class="nav__link nav__link--sub" href="./library.html#fallacies">Fallacies</a>
+      <a class="nav__link nav__link--sub" href="./library.html#biases">Cognitive Biases</a>
+      <a class="nav__link nav__link--sub" href="./library.html#tools">Thinking Tools</a>
+    </nav>
+  </aside>
+
+  <div class="backdrop" id="backdrop" hidden></div>
+
+  <main id="main" class="page">
+    <section class="hero">
+      <div class="hero__content">
+        <h1>Think clearly, learn faster, defend your mind.</h1>
+        <p class="lead">
+          ClearMind Atlas is a practical field guide to <strong>rational thought</strong>: how to form beliefs responsibly,
+          how to learn effectively, and how to resist manipulation — from others and from your own cognitive blind spots.
+        </p>
+
+        <div class="hero__cta">
+          <a class="btn" href="./library.html">
+            Explore the Library
+            <span class="btn__icon" aria-hidden="true">→</span>
+          </a>
+          <a class="btn btn--ghost" href="./practice.html">
+            Enter Practice Lab
+            <span class="btn__icon" aria-hidden="true">↗</span>
+          </a>
+        </div>
+
+        <div class="kpi">
+          <div class="kpi__item">
+            <div class="kpi__num" data-kpi="entries">—</div>
+            <div class="kpi__label">Curated entries</div>
+          </div>
+          <div class="kpi__item">
+            <div class="kpi__num" data-kpi="tags">—</div>
+            <div class="kpi__label">Tags for navigation</div>
+          </div>
+          <div class="kpi__item">
+            <div class="kpi__num" data-kpi="questions">—</div>
+            <div class="kpi__label">Practice questions</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__panel">
+        <div class="card card--glow">
+          <div class="card__head">
+            <h2 class="card__title">Quick Triage</h2>
+            <p class="card__sub">Figure out what you’re looking at — bias, fallacy, or a tool.</p>
+          </div>
+
+          <div class="triage" id="triageBox">
+            <label class="field">
+              <span class="field__label">What’s happening?</span>
+              <select class="select" id="triageSituation">
+                <option value="arg">I’m evaluating an argument.</option>
+                <option value="belief">I’m deciding whether to believe a claim.</option>
+                <option value="conflict">I’m in disagreement or debate.</option>
+                <option value="emotion">I feel sure/angry/anxious and want to check myself.</option>
+                <option value="plan">I’m planning/estimating and might be overconfident.</option>
+                <option value="info">I’m consuming news/social media and want to stay sane.</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span class="field__label">What’s the risk level?</span>
+              <div class="seg">
+                <button class="seg__btn is-active" data-risk="low" type="button">Low</button>
+                <button class="seg__btn" data-risk="med" type="button">Medium</button>
+                <button class="seg__btn" data-risk="high" type="button">High</button>
+              </div>
+            </label>
+
+            <button class="btn btn--small" id="triageRun" type="button">Suggest checks</button>
+
+            <div class="triage__out" id="triageOut" aria-live="polite"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card__head">
+            <h2 class="card__title">Start Here</h2>
+            <p class="card__sub">A small path that produces real gains fast.</p>
+          </div>
+
+          <ol class="steps">
+            <li><strong>Define the claim.</strong> Make it precise enough to be wrong.</li>
+            <li><strong>Ask what would change your mind.</strong> Precommit to evidence.</li>
+            <li><strong>Separate feeling from inference.</strong> Emotions are signals, not proofs.</li>
+            <li><strong>Check base rates & incentives.</strong> Many “mysteries” vanish.</li>
+            <li><strong>Steelman.</strong> Attack the best version, not the easiest.</li>
+          </ol>
+
+          <div class="card__foot">
+            <a class="link" href="./about.html">Read the method →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <div class="card__head">
+          <h2 class="card__title">Razors</h2>
+          <p class="card__sub">Heuristics for pruning explanations and staying testable.</p>
+        </div>
+        <p>Occam, Hanlon, Chesterton’s Fence, Newton’s Flaming Laser Sword, and more.</p>
+        <div class="card__foot">
+          <a class="btn btn--small" href="./library.html#razors">Browse razors</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__head">
+          <h2 class="card__title">Fallacies</h2>
+          <p class="card__sub">Argument errors and manipulation patterns in the wild.</p>
+        </div>
+        <p>Strawman, Motte-and-Bailey, equivocation, moving goalposts, gish gallop…</p>
+        <div class="card__foot">
+          <a class="btn btn--small" href="./library.html#fallacies">Browse fallacies</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__head">
+          <h2 class="card__title">Cognitive Biases</h2>
+          <p class="card__sub">Predictable ways the brain misleads itself.</p>
+        </div>
+        <p>Confirmation, availability, anchoring, sunk cost, attribution errors, and more.</p>
+        <div class="card__foot">
+          <a class="btn btn--small" href="./library.html#biases">Browse biases</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__head">
+          <h2 class="card__title">Thinking Tools</h2>
+          <p class="card__sub">Techniques for truth-seeking, learning, and decision quality.</p>
+        </div>
+        <p>Steelman, pre-mortem, Fermi estimates, calibration, red teaming, and more.</p>
+        <div class="card__foot">
+          <a class="btn btn--small" href="./library.html#tools">Browse tools</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="footerpad">
+      <div class="callout">
+        <div>
+          <h2 class="callout__title">Want this to stay useful long-term?</h2>
+          <p class="callout__text">
+            The content is intentionally structured as editable data. Add entries, tweak tags, and expand the practice sets
+            without touching the UI logic.
+          </p>
+        </div>
+        <a class="btn" href="./practice.html">Train now →</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__left">
+        <div class="footer__brand">ClearMind Atlas</div>
+        <div class="footer__meta">A static, local-first knowledge base for rational thought.</div>
+      </div>
+      <div class="footer__right">
+        <a class="link" href="./about.html">About</a>
+        <a class="link" href="./library.html">Library</a>
+        <a class="link" href="./practice.html">Practice</a>
+        <a class="link" href="./toolkit.html">Toolkit</a>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="./assets/js/app.js"></script>
+</body>
+</html>

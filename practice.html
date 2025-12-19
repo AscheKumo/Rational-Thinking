@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Practice Lab — ClearMind Atlas</title>
+  <meta name="description" content="Interactive practice to spot fallacies and biases and choose better thinking tools." />
+  <link rel="stylesheet" href="./assets/css/styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <div class="topbar__inner">
+      <button class="iconbtn" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="sidedrawer">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+
+      <a class="brand" href="./index.html">
+        <span class="brand__mark" aria-hidden="true">◈</span>
+        <span class="brand__name">ClearMind Atlas</span>
+        <span class="brand__tag">Practice Lab</span>
+      </a>
+
+      <div class="topbar__actions">
+        <button class="pill" id="themeToggle" type="button" aria-label="Toggle dark mode">
+          <span class="pill__icon" aria-hidden="true">☾</span>
+          <span class="pill__text">Theme</span>
+        </button>
+        <a class="pill pill--ghost" href="./toolkit.html">
+          <span class="pill__icon" aria-hidden="true">⟡</span>
+          <span class="pill__text">My Toolkit</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <aside class="sidedrawer" id="sidedrawer" aria-hidden="true">
+    <nav class="nav">
+      <a class="nav__link" href="./index.html">Home</a>
+      <a class="nav__link" href="./library.html">Library</a>
+      <a class="nav__link is-active" href="./practice.html">Practice Lab</a>
+      <a class="nav__link" href="./toolkit.html">My Toolkit</a>
+      <a class="nav__link" href="./about.html">About / Method</a>
+    </nav>
+  </aside>
+
+  <div class="backdrop" id="backdrop" hidden></div>
+
+  <main id="main" class="page">
+    <section class="panel">
+      <div class="panel__head">
+        <h1>Practice Lab</h1>
+        <p class="lead">
+          Recognition is a skill. You train it the way you train anything: repetition + feedback + reflection.
+        </p>
+      </div>
+
+      <div class="grid grid--2">
+        <div class="card">
+          <div class="card__head">
+            <h2 class="card__title">Choose a drill</h2>
+            <p class="card__sub">Short sets; immediate explanations; links back to the library.</p>
+          </div>
+
+          <div class="practiceConfig">
+            <label class="field">
+              <span class="field__label">Mode</span>
+              <select class="select" id="mode">
+                <option value="mixed">Mixed</option>
+                <option value="fallacy">Fallacies only</option>
+                <option value="bias">Biases only</option>
+                <option value="tool">Tools / best next move</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span class="field__label">Length</span>
+              <select class="select" id="length">
+                <option value="5">5 questions</option>
+                <option value="10" selected>10 questions</option>
+                <option value="15">15 questions</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span class="field__label">Difficulty</span>
+              <select class="select" id="difficulty">
+                <option value="1">1 — warmup</option>
+                <option value="2" selected>2 — standard</option>
+                <option value="3">3 — sharp</option>
+              </select>
+            </label>
+
+            <button class="btn" id="start">Start session</button>
+
+            <div class="hint">
+              Tip: after a miss, pin the related entry to <strong>My Toolkit</strong> and revisit it tomorrow.
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card__head">
+            <h2 class="card__title">Progress</h2>
+            <p class="card__sub">Saved locally on this device.</p>
+          </div>
+          <div class="stats" id="stats"></div>
+          <div class="card__foot">
+            <button class="btn btn--small btn--ghost" id="resetStats" type="button">Reset local stats</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card card--glow" id="session" hidden>
+      <div class="sessionHead">
+        <div>
+          <h2 class="card__title">Session</h2>
+          <div class="muted" id="sessionMeta"></div>
+        </div>
+        <div class="sessionHead__right">
+          <div class="pill pill--ghost" id="scorePill">Score: 0</div>
+          <button class="btn btn--small btn--ghost" id="end" type="button">End</button>
+        </div>
+      </div>
+
+      <div class="question" id="question"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__left">
+        <div class="footer__brand">ClearMind Atlas</div>
+        <div class="footer__meta">Practice Lab</div>
+      </div>
+      <div class="footer__right">
+        <a class="link" href="./library.html">Library</a>
+        <a class="link" href="./toolkit.html">Toolkit</a>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="./assets/js/practice.js"></script>
+</body>
+</html>

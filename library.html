@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Library — ClearMind Atlas</title>
+  <meta name="description" content="Searchable library of razors, fallacies, cognitive biases, and thinking tools." />
+  <link rel="stylesheet" href="./assets/css/styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <div class="topbar__inner">
+      <button class="iconbtn" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="sidedrawer">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+
+      <a class="brand" href="./index.html">
+        <span class="brand__mark" aria-hidden="true">◈</span>
+        <span class="brand__name">ClearMind Atlas</span>
+        <span class="brand__tag">Library</span>
+      </a>
+
+      <div class="topbar__actions">
+        <button class="pill" id="themeToggle" type="button" aria-label="Toggle dark mode">
+          <span class="pill__icon" aria-hidden="true">☾</span>
+          <span class="pill__text">Theme</span>
+        </button>
+        <a class="pill pill--ghost" href="./toolkit.html">
+          <span class="pill__icon" aria-hidden="true">⟡</span>
+          <span class="pill__text">My Toolkit</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <aside class="sidedrawer" id="sidedrawer" aria-hidden="true">
+    <nav class="nav">
+      <a class="nav__link" href="./index.html">Home</a>
+      <a class="nav__link is-active" href="./library.html">Library</a>
+      <a class="nav__link" href="./practice.html">Practice Lab</a>
+      <a class="nav__link" href="./toolkit.html">My Toolkit</a>
+      <a class="nav__link" href="./about.html">About / Method</a>
+
+      <div class="nav__divider"></div>
+
+      <a class="nav__link nav__link--sub" href="#razors">Razors</a>
+      <a class="nav__link nav__link--sub" href="#fallacies">Fallacies</a>
+      <a class="nav__link nav__link--sub" href="#biases">Cognitive Biases</a>
+      <a class="nav__link nav__link--sub" href="#tools">Thinking Tools</a>
+    </nav>
+  </aside>
+
+  <div class="backdrop" id="backdrop" hidden></div>
+
+  <main id="main" class="page page--library">
+    <section class="panel">
+      <div class="panel__head">
+        <h1>Library</h1>
+        <p class="lead">Search and filter the full knowledge base. Pin what you use.</p>
+      </div>
+
+      <div class="searchbar">
+        <label class="field searchbar__field">
+          <span class="field__label">Search</span>
+          <input class="input" id="q" placeholder="Search by name, alias, tag, or symptom (e.g., 'certainty', 'debate', 'base rate')…" autocomplete="off" />
+        </label>
+
+        <label class="field">
+          <span class="field__label">Type</span>
+          <select class="select" id="type">
+            <option value="all">All</option>
+            <option value="razor">Razors</option>
+            <option value="fallacy">Fallacies</option>
+            <option value="bias">Cognitive Biases</option>
+            <option value="tool">Thinking Tools</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span class="field__label">Sort</span>
+          <select class="select" id="sort">
+            <option value="relevance">Relevance</option>
+            <option value="alpha">A → Z</option>
+            <option value="type">By type</option>
+          </select>
+        </label>
+
+        <button class="btn btn--small" id="clearFilters" type="button">Clear</button>
+      </div>
+
+      <div class="tagrow" id="tagrow" aria-label="Tag filters"></div>
+      <div class="hint" id="resultsHint"></div>
+    </section>
+
+    <section class="library">
+      <div class="library__main">
+        <div class="sectionjump" id="sectionJump">
+          <a class="chip" href="#razors">Razors</a>
+          <a class="chip" href="#fallacies">Fallacies</a>
+          <a class="chip" href="#biases">Biases</a>
+          <a class="chip" href="#tools">Tools</a>
+        </div>
+
+        <div class="section" id="razors">
+          <div class="section__head">
+            <h2>Razors</h2>
+            <p class="section__sub">Heuristics for pruning explanations and improving testability.</p>
+          </div>
+          <div class="cards" data-bucket="razor"></div>
+        </div>
+
+        <div class="section" id="fallacies">
+          <div class="section__head">
+            <h2>Fallacies</h2>
+            <p class="section__sub">Argument-level errors and common manipulation patterns.</p>
+          </div>
+          <div class="cards" data-bucket="fallacy"></div>
+        </div>
+
+        <div class="section" id="biases">
+          <div class="section__head">
+            <h2>Cognitive Biases</h2>
+            <p class="section__sub">Mind-level distortions: perception, memory, incentives, and attention.</p>
+          </div>
+          <div class="cards" data-bucket="bias"></div>
+        </div>
+
+        <div class="section" id="tools">
+          <div class="section__head">
+            <h2>Thinking Tools</h2>
+            <p class="section__sub">Methods for truth-seeking, learning, and decision quality.</p>
+          </div>
+          <div class="cards" data-bucket="tool"></div>
+        </div>
+      </div>
+
+      <aside class="library__side">
+        <div class="card">
+          <div class="card__head">
+            <h3 class="card__title">My Toolkit</h3>
+            <p class="card__sub">Pinned items appear here (saved locally).</p>
+          </div>
+          <div id="pinnedMini" class="mini"></div>
+          <div class="card__foot">
+            <a class="link" href="./toolkit.html">Open toolkit →</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card__head">
+            <h3 class="card__title">Debate Safety</h3>
+            <p class="card__sub">Fast checks that prevent wasted time.</p>
+          </div>
+          <ul class="bullets">
+            <li>Can both parties name what would change their mind?</li>
+            <li>Are definitions stable (no equivocation / motte-and-bailey)?</li>
+            <li>Is the claim testable (avoid unfalsifiable sprawl)?</li>
+            <li>Are you arguing facts, values, or identity?</li>
+            <li>Is this “persuasion” or “status theater”?</li>
+          </ul>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__left">
+        <div class="footer__brand">ClearMind Atlas</div>
+        <div class="footer__meta">Library</div>
+      </div>
+      <div class="footer__right">
+        <a class="link" href="./about.html">About</a>
+        <a class="link" href="./practice.html">Practice</a>
+        <a class="link" href="./toolkit.html">Toolkit</a>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="./assets/js/library.js"></script>
+</body>
+</html>

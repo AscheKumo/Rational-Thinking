@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Toolkit — ClearMind Atlas</title>
+  <meta name="description" content="Pinned items and personal notes for your rational thinking toolkit." />
+  <link rel="stylesheet" href="./assets/css/styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <div class="topbar__inner">
+      <button class="iconbtn" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="sidedrawer">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+
+      <a class="brand" href="./index.html">
+        <span class="brand__mark" aria-hidden="true">◈</span>
+        <span class="brand__name">ClearMind Atlas</span>
+        <span class="brand__tag">My Toolkit</span>
+      </a>
+
+      <div class="topbar__actions">
+        <button class="pill" id="themeToggle" type="button" aria-label="Toggle dark mode">
+          <span class="pill__icon" aria-hidden="true">☾</span>
+          <span class="pill__text">Theme</span>
+        </button>
+        <a class="pill pill--ghost" href="./library.html">
+          <span class="pill__icon" aria-hidden="true">⌕</span>
+          <span class="pill__text">Library</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <aside class="sidedrawer" id="sidedrawer" aria-hidden="true">
+    <nav class="nav">
+      <a class="nav__link" href="./index.html">Home</a>
+      <a class="nav__link" href="./library.html">Library</a>
+      <a class="nav__link" href="./practice.html">Practice Lab</a>
+      <a class="nav__link is-active" href="./toolkit.html">My Toolkit</a>
+      <a class="nav__link" href="./about.html">About / Method</a>
+    </nav>
+  </aside>
+
+  <div class="backdrop" id="backdrop" hidden></div>
+
+  <main id="main" class="page">
+    <section class="panel">
+      <div class="panel__head">
+        <h1>My Toolkit</h1>
+        <p class="lead">Your pinned entries and notes. Everything stays on-device (localStorage).</p>
+      </div>
+
+      <div class="grid grid--2">
+        <div class="card">
+          <div class="card__head">
+            <h2 class="card__title">Pinned items</h2>
+            <p class="card__sub">Keep what you actually use. Remove ruthlessly.</p>
+          </div>
+          <div id="pinnedList" class="cards"></div>
+          <div class="card__foot">
+            <button class="btn btn--small btn--ghost" id="clearPins" type="button">Clear pins</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card__head">
+            <h2 class="card__title">Notes</h2>
+            <p class="card__sub">Write your own “anti-bias” scripts, reminders, and checklists.</p>
+          </div>
+          <textarea class="textarea" id="notes" rows="14" placeholder="Examples:
+- When I feel certain and angry, I will pause and ask: what evidence would change my mind?
+- Before sharing, I will check base rates and incentives.
+- If a claim is unfalsifiable, I label it as a story, not a belief."></textarea>
+
+          <div class="card__foot">
+            <button class="btn btn--small" id="saveNotes" type="button">Save notes</button>
+            <button class="btn btn--small btn--ghost" id="export" type="button">Export (JSON)</button>
+          </div>
+
+          <div class="hint" id="exportHint"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card__head">
+        <h2 class="card__title">Printable one-page checklist</h2>
+        <p class="card__sub">Use this before you commit strongly to a belief or decision.</p>
+      </div>
+
+      <div class="checklist" id="printableChecklist">
+        <label class="check"><input type="checkbox" /> What exactly is the claim? (define terms; make it falsifiable if possible)</label>
+        <label class="check"><input type="checkbox" /> What would change my mind? (precommit to evidence)</label>
+        <label class="check"><input type="checkbox" /> Base rate / prior: how common is this, really?</label>
+        <label class="check"><input type="checkbox" /> Incentives: who benefits if I believe or share this?</label>
+        <label class="check"><input type="checkbox" /> Alternative hypotheses: can I name at least two?</label>
+        <label class="check"><input type="checkbox" /> Steelman the best counterargument.</label>
+        <label class="check"><input type="checkbox" /> Is my confidence calibrated to evidence quality?</label>
+        <label class="check"><input type="checkbox" /> Am I confusing correlation with causation?</label>
+        <label class="check"><input type="checkbox" /> Is this argument attacking people instead of claims?</label>
+        <label class="check"><input type="checkbox" /> If I’m emotional, I pause and reassess later.</label>
+      </div>
+
+      <div class="card__foot">
+        <button class="btn btn--small btn--ghost" type="button" onclick="window.print()">Print</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__left">
+        <div class="footer__brand">ClearMind Atlas</div>
+        <div class="footer__meta">My Toolkit</div>
+      </div>
+      <div class="footer__right">
+        <a class="link" href="./library.html">Library</a>
+        <a class="link" href="./practice.html">Practice</a>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="./assets/js/toolkit.js"></script>
+</body>
+</html>
