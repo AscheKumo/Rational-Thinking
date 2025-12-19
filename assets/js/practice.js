@@ -51,7 +51,24 @@ function pickQuestions({ mode, length, difficulty }){
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
 
-  return arr.slice(0, length);
+  return arr.slice(0, length).map(shuffleQuestionChoices);
+}
+
+function shuffleQuestionChoices(q){
+  const choices = Array.isArray(q.choices) ? q.choices : [];
+  const answer = Number.isInteger(q.answer) ? q.answer : 0;
+
+  // Build an index permutation and shuffle it (Fisher–Yates)
+  const order = choices.map((_, i) => i);
+  for(let i=order.length-1; i>0; i--){
+    const j = Math.floor(Math.random() * (i+1));
+    [order[i], order[j]] = [order[j], order[i]];
+  }
+
+  const newChoices = order.map(i => choices[i]);
+  const newAnswer = Math.max(0, order.indexOf(answer));
+
+  return { ...q, choices: newChoices, answer: newAnswer };
 }
 
 function renderQuestion(q, index, total){
