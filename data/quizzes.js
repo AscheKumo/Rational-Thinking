@@ -227,6 +227,120 @@ export const QUIZZES = {
       explanation: "They’re applying the wrong ‘type’ of reasoning (metaphor → mechanism). Clarify what category the claim belongs to and what counts as evidence.",
       related_ids: ["fallacy_category_error", "tool_operationalize", "tool_definition_lock"],
       difficulty: 3
+    },
+
+    {
+      prompt: "In a planning meeting, you propose adding a small safety check. A teammate replies: ‘So you want to slow everything down and kill productivity.’\nWhat’s the best label for the error?",
+      choices: ["Red herring", "Strawman", "False dilemma", "Ad hominem"],
+      answer: 1,
+      explanation: "Your proposal (a targeted safety check) is replaced with an exaggerated version (killing productivity). The wise move is to restate your actual claim precisely and confirm agreement before debating tradeoffs.",
+      related_ids: ["fallacy_strawman", "tool_definition_lock", "tool_steelman"],
+      difficulty: 1
+    },
+    {
+      prompt: "Someone says: ‘This belief is true because it’s what our community has always believed.’\nBest label?",
+      choices: ["Appeal to popularity", "Appeal to nature", "Appeal to tradition", "Circular reasoning"],
+      answer: 2,
+      explanation: "Tradition is a history of practice, not a guarantee of truth. The mature move is to understand what the tradition was solving (Chesterton’s Fence) and then evaluate outcomes with today’s evidence.",
+      related_ids: ["fallacy_appeal_to_tradition", "razor_chesterton_fence", "tool_base_rates"],
+      difficulty: 1
+    },
+    {
+      prompt: "A person makes an extraordinary claim, offers no evidence, and insists: ‘If you can’t disprove it, you must accept it.’\nBest label?",
+      choices: ["Appeal to ignorance", "Moving the goalposts", "Tu quoque", "Equivocation"],
+      answer: 0,
+      explanation: "Lack of disproof isn’t proof. A good thinking habit is to ask what evidence should exist if it were true and keep the burden of proof with the claimant.",
+      related_ids: ["fallacy_appeal_to_ignorance", "fallacy_burden_of_proof", "razor_hitchens"],
+      difficulty: 1
+    },
+    {
+      prompt: "A discussion about school funding turns into ten minutes about a politician’s personal scandal, and the funding question never gets answered.\nBest label?",
+      choices: ["Red herring", "Whataboutism", "Gish gallop", "False cause"],
+      answer: 0,
+      explanation: "It’s a topic diversion that prevents convergence. The skill is naming the diversion and returning to the original claim (or parking the tangent explicitly).",
+      related_ids: ["fallacy_red_herring", "tool_boundaries", "tool_argument_map"],
+      difficulty: 2
+    },
+    {
+      prompt: "A claim is defined so that any counterexample is re-labeled as ‘not a real counterexample.’\nBest label?",
+      choices: ["No True Scotsman", "Special pleading", "Unfalsifiable claim", "Appeal to authority"],
+      answer: 2,
+      explanation: "If a claim is protected from disconfirmation by definition or ad-hoc excuses, it can’t be tested. Ask for clear criteria and what evidence would count against it.",
+      related_ids: ["fallacy_unfalsifiable", "tool_falsifiability_check", "razor_newton_fls"],
+      difficulty: 3
+    },
+
+    {
+      prompt: "In a code review you flag a bug. The response is: ‘You only say that because you’re jealous of me.’\nWhat fallacy fits best?",
+      choices: ["Ad hominem", "Red herring", "Equivocation", "Appeal to popularity"],
+      answer: 0,
+      explanation: "It attacks your motive/character instead of addressing the claim (the bug). The mature move is to bring the discussion back to evidence: reproduction steps, tests, and the specific diff.",
+      related_ids: ["fallacy_ad_hominem", "tool_argument_map", "razor_grice"],
+      difficulty: 1
+    },
+    {
+      prompt: "A manager says: ‘If you don’t work this weekend, do you even care about the team?’\nWhat’s wrong with the question?",
+      choices: ["Loaded question", "False dilemma", "Tu quoque", "Post hoc ergo propter hoc"],
+      answer: 0,
+      explanation: "It smuggles in an assumption (that not working the weekend implies lack of care). The wise response is to reject the premise and reframe the real question: priorities, scope, and expectations.",
+      related_ids: ["fallacy_loaded_question", "tool_boundaries", "tool_definition_lock"],
+      difficulty: 2
+    },
+    {
+      prompt: "A debate about public health becomes: ‘Either you support this measure or you want people to die.’\nBest label?",
+      choices: ["False dilemma", "Appeal to authority", "Category error", "Circular reasoning"],
+      answer: 0,
+      explanation: "This collapses many nuanced positions into two extremes. Wisdom is creating a wider option set and asking what evidence would compare tradeoffs across alternatives.",
+      related_ids: ["fallacy_false_dilemma", "tool_options", "bias_black_white"],
+      difficulty: 2
+    },
+    {
+      prompt: "Someone posts 18 weak claims in one thread and says: ‘Respond to all of these or you lose.’\nLabel it.",
+      choices: ["Appeal to popularity", "Gish Gallop", "Moving the goalposts", "Appeal to ignorance"],
+      answer: 1,
+      explanation: "This exploits time and attention. A good move is to pick one claim, ask them to choose their strongest, and proceed one at a time with agreed standards.",
+      related_ids: ["fallacy_gish_gallop", "tool_boundaries", "tool_timeboxing"],
+      difficulty: 2
+    },
+    {
+      prompt: "A sports commentator says: ‘Real fans never criticize the coach; if you criticize, you’re not a real fan.’\nBest label?",
+      choices: ["No True Scotsman", "Appeal to emotion", "False cause", "Appeal to nature"],
+      answer: 0,
+      explanation: "The definition is changed to exclude counterexamples. Ask for objective criteria for the category (‘fan’) that doesn’t just protect the claim from criticism.",
+      related_ids: ["fallacy_no_true_scotsman", "tool_definition_lock", "bias_in_group"],
+      difficulty: 1
+    },
+    {
+      prompt: "‘Crime increased after the new policy—so the policy caused the increase.’ (No controls, no mechanism.)\nBest label?",
+      choices: ["Post hoc ergo propter hoc", "Appeal to tradition", "Tu quoque", "Ad hominem"],
+      answer: 0,
+      explanation: "Sequence is not causation. The wise move is to check confounders, selection effects, and alternative explanations—then ask for a plausible mechanism.",
+      related_ids: ["fallacy_post_hoc", "tool_causality_check", "bias_illusory_correlation"],
+      difficulty: 2
+    },
+    {
+      prompt: "‘Millions of people use this supplement, so it must work.’\nBest label?",
+      choices: ["Appeal to popularity", "Appeal to authority", "Special pleading", "Equivocation"],
+      answer: 0,
+      explanation: "Popularity can come from marketing, incentives, and social proof—not efficacy. Wisdom is to ask for controlled outcome evidence and base rates.",
+      related_ids: ["fallacy_appeal_to_popularity", "tool_source_hygiene", "tool_base_rates"],
+      difficulty: 1
+    },
+    {
+      prompt: "‘This celebrity doctor recommends it, so it’s definitely true.’\nBest label?",
+      choices: ["Appeal to authority", "Red herring", "False dilemma", "Circular reasoning"],
+      answer: 0,
+      explanation: "Authority can’t substitute for evidence, especially outside their domain. Check primary sources, replication, and whether the claim predicts outcomes.",
+      related_ids: ["fallacy_appeal_to_authority", "tool_source_hygiene", "bias_authority"],
+      difficulty: 1
+    },
+    {
+      prompt: "‘If we allow remote work one day a week, soon no one will ever come to the office again.’ (No probabilities, no guardrails.)\nBest label?",
+      choices: ["Slippery slope", "Appeal to nature", "Loaded question", "Appeal to ignorance"],
+      answer: 0,
+      explanation: "It asserts inevitability without a supported chain. Wisdom is to ask for the mechanism, likelihood, and what guardrails would prevent the feared outcome.",
+      related_ids: ["fallacy_slippery_slope", "tool_bounds", "tool_reversible_decisions"],
+      difficulty: 2
     }
   ],
 
@@ -385,6 +499,120 @@ export const QUIZZES = {
       explanation: "Emotion becomes inference. Counter: pause & label, then return to evidence and testability.",
       related_ids: ["bias_affect_heuristic", "tool_pause_label", "fallacy_appeal_to_emotion"],
       difficulty: 2
+    },
+
+    {
+      prompt: "After watching two beginner videos, you feel confident you could outperform most experts in that domain.\nWhich bias fits best?",
+      choices: ["Dunning–Kruger effect", "Confirmation bias", "Anchoring", "Survivorship bias"],
+      answer: 0,
+      explanation: "Early learning often creates an illusion of mastery because you don’t yet see what you’re missing. Wisdom here is building feedback loops (tests, peer review) and calibrating confidence.",
+      related_ids: ["bias_dunning_kruger", "tool_calibration", "tool_change_mind"],
+      difficulty: 2
+    },
+    {
+      prompt: "You routinely say you’re ‘90% sure’ about predictions, but your outcomes match closer to ‘60% sure.’\nWhich bias is showing up?",
+      choices: ["Anchoring", "Overconfidence", "Negativity bias", "Naturalness bias"],
+      answer: 1,
+      explanation: "Overconfidence is miscalibration. The fix is not ‘be humble’ in the abstract—it’s to track predictions, use ranges, and update your confidence scale over time.",
+      related_ids: ["bias_overconfidence", "tool_calibration", "tool_base_rates"],
+      difficulty: 2
+    },
+    {
+      prompt: "You keep postponing a hard conversation because the short-term discomfort feels worse than the long-term cost.\nWhich bias?",
+      choices: ["Avoidance", "Conformity bias", "Halo effect", "Availability heuristic"],
+      answer: 0,
+      explanation: "Avoidance trades today’s discomfort for tomorrow’s compounding complexity. A helpful move is to timebox a tiny start and define the next smallest action.",
+      related_ids: ["bias_avoidance", "tool_timeboxing", "tool_prioritization"],
+      difficulty: 1
+    },
+    {
+      prompt: "One dramatic story dominates your judgment even though it’s statistically rare, making you feel like it’s common.\nWhich bias fits best?",
+      choices: ["Salience bias", "Sunk cost fallacy", "Status quo bias", "In-group bias"],
+      answer: 0,
+      explanation: "Vivid details hijack attention and distort frequency judgments. The grounded move is to ask for denominators (out of how many?) and check base rates.",
+      related_ids: ["bias_salience", "tool_base_rates", "bias_availability"],
+      difficulty: 1
+    },
+    {
+      prompt: "A team treats a KPI as if it’s the real goal, and starts optimizing the number while the underlying reality worsens.\nWhich bias fits best?",
+      choices: ["Reification", "Fundamental attribution error", "Authority bias", "Catastrophizing"],
+      answer: 0,
+      explanation: "A label or metric becomes ‘the thing itself.’ The wiser move is to ask what the metric is summarizing, look for edge cases, and tie measurement back to the real outcome.",
+      related_ids: ["bias_reification", "razor_goodhart", "tool_systems_thinking"],
+      difficulty: 3
+    },
+
+    {
+      prompt: "You meet someone from a prestigious school and immediately assume they’ll be great at every part of the job.\nWhich bias fits best?",
+      choices: ["Halo effect", "Sunk cost fallacy", "Conformity bias", "Illusory correlation"],
+      answer: 0,
+      explanation: "One positive signal (prestige) bleeds into unrelated judgments. Wisdom is separating dimensions and using structured criteria.",
+      related_ids: ["bias_halo", "tool_source_hygiene", "bias_authority"],
+      difficulty: 1
+    },
+    {
+      prompt: "After reading one alarming story about a rare risk, you feel it’s common and imminent.\nWhich bias fits best?",
+      choices: ["Availability heuristic", "Status quo bias", "Anchoring", "In-group bias"],
+      answer: 0,
+      explanation: "Vivid examples feel frequent. The grounded move is to check base rates and the denominator: how often, out of how many?",
+      related_ids: ["bias_availability", "tool_base_rates", "bias_salience"],
+      difficulty: 1
+    },
+    {
+      prompt: "In a negotiation, the first number mentioned strongly shapes what you consider ‘reasonable,’ even if it was arbitrary.\nWhich bias?",
+      choices: ["Anchoring", "Negativity bias", "Naturalness bias", "Survivorship bias"],
+      answer: 0,
+      explanation: "Anchors stick. Wisdom is generating independent estimates and using ranges instead of single-point values.",
+      related_ids: ["bias_anchoring", "tool_fermi", "tool_calibration"],
+      difficulty: 1
+    },
+    {
+      prompt: "You keep a process mainly because ‘it’s how we’ve always done it,’ even though a small experiment could improve things.\nWhich bias?",
+      choices: ["Status quo bias", "Halo effect", "Affect heuristic", "Illusory correlation"],
+      answer: 0,
+      explanation: "Defaults feel safe. Wisdom is comparing risks of change vs non-change and running reversible experiments.",
+      related_ids: ["bias_status_quo", "tool_reversible_decisions", "razor_chesterton_fence"],
+      difficulty: 2
+    },
+    {
+      prompt: "You interpret ambiguous information in a way that supports what you already believe, and you don’t notice you’re doing it.\nWhich bias?",
+      choices: ["Confirmation bias", "Conformity bias", "Status quo bias", "Naturalness bias"],
+      answer: 0,
+      explanation: "Confirmation bias shapes what you search for and what you accept. Wisdom is deliberately hunting the strongest counterevidence and stating update conditions.",
+      related_ids: ["bias_confirmation", "tool_change_mind", "tool_source_hygiene"],
+      difficulty: 2
+    },
+    {
+      prompt: "You continue a subscription you barely use because you already paid for the year.\nWhich bias?",
+      choices: ["Sunk cost fallacy", "Conformity bias", "Halo effect", "Availability heuristic"],
+      answer: 0,
+      explanation: "Past cost is sunk and shouldn’t control present choice. Wisdom is a ‘clean slate’ decision: what would you choose starting today?",
+      related_ids: ["bias_sunk_cost", "tool_stop_rules", "tool_premortem"],
+      difficulty: 1
+    },
+    {
+      prompt: "You privately disagree, but you adopt the group’s opinion because dissent feels socially risky.\nWhich bias?",
+      choices: ["Conformity bias", "Anchoring", "Catastrophizing", "Reification"],
+      answer: 0,
+      explanation: "Social friction changes expressed beliefs and sometimes even internal beliefs. Wisdom is to form independent estimates first and diversify sources.",
+      related_ids: ["bias_conformity", "tool_source_hygiene", "tool_timeboxing"],
+      difficulty: 2
+    },
+    {
+      prompt: "You prefer an herbal remedy mostly because it’s ‘natural,’ even though you haven’t compared evidence of outcomes and harms.\nWhich bias?",
+      choices: ["Naturalness bias", "Status quo bias", "Anchoring", "Negativity bias"],
+      answer: 0,
+      explanation: "Natural doesn’t equal safe or effective. Wisdom is demanding outcome evidence and comparing risks with base rates.",
+      related_ids: ["bias_naturalness", "tool_base_rates", "fallacy_appeal_to_nature"],
+      difficulty: 1
+    },
+    {
+      prompt: "A coworker misses a deadline and you immediately think ‘they’re lazy,’ while when you miss a deadline you think ‘I had an unusually hard week.’\nWhich bias is this?",
+      choices: ["Fundamental attribution error", "Anchoring", "Survivorship bias", "Reification"],
+      answer: 0,
+      explanation: "We over-attribute others’ behavior to character and our own to circumstances. Wisdom is checking constraints, incentives, and context before forming a moral story.",
+      related_ids: ["bias_fundamental_attribution", "tool_check_incentives", "razor_hanlon"],
+      difficulty: 2
     }
   ],
 
@@ -487,6 +715,128 @@ export const QUIZZES = {
       explanation: "Define quit/pivot conditions in advance to neutralize sunk cost pressure and endless optimization.",
       related_ids: ["tool_stop_rules", "bias_sunk_cost", "tool_prioritization"],
       difficulty: 2
+    },
+
+    {
+      prompt: "A discussion keeps failing because people mean different things by ‘quality’ and ‘done.’\nBest next move?",
+      choices: ["Operationalize", "Causality Check", "Base Rate Check", "Pre-mortem"],
+      answer: 0,
+      explanation: "Turn vague words into observable criteria (tests, checklists, thresholds). When terms become measurable, arguments often dissolve into clear decisions.",
+      related_ids: ["tool_operationalize", "tool_definition_lock", "fallacy_equivocation"],
+      difficulty: 1
+    },
+    {
+      prompt: "You’re stuck in ‘either/or’ thinking and feel there are only two bad options.\nBest next move?",
+      choices: ["Option Generation", "Source Hygiene", "Argument Mapping", "Timeboxing"],
+      answer: 0,
+      explanation: "Generate at least three options and include ‘do nothing’ and ‘small experiment.’ Wisdom is remembering that most real problems have more degrees of freedom than your first frame.",
+      related_ids: ["tool_options", "fallacy_false_dilemma", "bias_black_white"],
+      difficulty: 1
+    },
+    {
+      prompt: "You’re about to argue for a big intervention, but you’re worried about second-order effects and feedback loops.\nBest next move?",
+      choices: ["Systems Thinking", "Steelmanning", "Fermi Estimation", "Pause & Label"],
+      answer: 0,
+      explanation: "Map incentives, feedback loops, bottlenecks, and unintended consequences. Strong plans often fail because they only model the first step.",
+      related_ids: ["tool_systems_thinking", "tool_check_incentives", "razor_chesterton_fence"],
+      difficulty: 2
+    },
+    {
+      prompt: "A conversation is spiraling into endless threads, and you want to preserve your attention while still being fair.\nBest next move?",
+      choices: ["Timeboxing", "Causality Check", "Base Rate Check", "Reversible Decisions"],
+      answer: 0,
+      explanation: "Set a time limit and a success condition (what ‘resolved’ looks like). Attention is a resource; boundaries protect truth-seeking from turning into noise.",
+      related_ids: ["tool_timeboxing", "tool_boundaries", "fallacy_gish_gallop"],
+      difficulty: 2
+    },
+    {
+      prompt: "Someone’s behavior seems irrational, but you suspect incentives or constraints might explain it better than character judgments.\nBest next move?",
+      choices: ["Check Incentives", "Argument Mapping", "Definition Lock", "Pre-mortem"],
+      answer: 0,
+      explanation: "Before moral stories, look for incentives, constraints, and tradeoffs. This often yields a more accurate—and more compassionate—model of what’s happening.",
+      related_ids: ["tool_check_incentives", "razor_hanlon", "bias_fundamental_attribution"],
+      difficulty: 1
+    },
+    {
+      prompt: "You want to become more accurate over time, not just ‘sound smart’ in the moment.\nBest next move?",
+      choices: ["Calibration", "Conversation Boundaries", "Option Generation", "Definition Lock"],
+      answer: 0,
+      explanation: "Track your confidence against outcomes, use ranges, and update your internal scale. Wisdom is measurable: it shows up as better prediction and better decisions.",
+      related_ids: ["tool_calibration", "tool_change_mind", "bias_overconfidence"],
+      difficulty: 2
+    },
+
+    {
+      prompt: "You’re estimating the time for a project, but everyone is arguing from gut feelings and single-point guesses.\nBest next move?",
+      choices: ["Fermi Estimation", "Pause & Label", "Source Hygiene", "Definition Lock"],
+      answer: 0,
+      explanation: "Break the estimate into parts, use rough ranges, and make assumptions explicit. Wisdom is turning ‘vibes’ into a transparent model you can update.",
+      related_ids: ["tool_fermi", "tool_calibration", "bias_anchoring"],
+      difficulty: 2
+    },
+    {
+      prompt: "A claim is going viral on social media, and you want to avoid amplifying something false.\nBest next move?",
+      choices: ["Source Hygiene", "Option Generation", "Reversible Decisions", "Pre-mortem"],
+      answer: 0,
+      explanation: "Find the original source, check context, and look for corroboration. Wisdom is slowing down before you spread claims that can’t be ‘unspread.’",
+      related_ids: ["tool_source_hygiene", "razor_hitchens", "bias_availability"],
+      difficulty: 1
+    },
+    {
+      prompt: "You and a friend are stuck in an argument where each new message creates three new threads. You want closure or an honest stop.\nBest next move?",
+      choices: ["Conversation Boundaries", "Causality Check", "Base Rate Check", "Steelmanning"],
+      answer: 0,
+      explanation: "Agree on one claim at a time, one standard, and an exit condition. Wisdom is requiring convergence; otherwise, you’re just paying attention-tax.",
+      related_ids: ["tool_boundaries", "tool_timeboxing", "fallacy_red_herring"],
+      difficulty: 2
+    },
+    {
+      prompt: "You’re about to roll out a policy change and want to catch realistic failure modes *before* people get harmed or furious.\nBest next move?",
+      choices: ["Pre-mortem", "Definition Lock", "Argument Mapping", "Pause & Label"],
+      answer: 0,
+      explanation: "Assume it failed and list why. Then add mitigations and early warning signals. Wisdom is making failure cheap and early.",
+      related_ids: ["tool_premortem", "tool_stop_rules", "razor_chesterton_fence"],
+      difficulty: 2
+    },
+    {
+      prompt: "You’re debating a controversial topic and you want to stay truth-seeking instead of identity-defending.\nBest next move?",
+      choices: ["What Would Change My Mind?", "Systems Thinking", "Timeboxing", "Option Generation"],
+      answer: 0,
+      explanation: "State your current confidence and your update conditions up front. Wisdom is making it possible to ‘win’ by learning, not by posturing.",
+      related_ids: ["tool_change_mind", "bias_identity_protective", "bias_confirmation"],
+      difficulty: 2
+    },
+    {
+      prompt: "Someone says ‘this is definitely happening everywhere’ based on a few anecdotes, and you want to check plausibility fast.\nBest next move?",
+      choices: ["Base Rate Check", "Steelmanning", "Reversible Decisions", "Pause & Label"],
+      answer: 0,
+      explanation: "Start with prevalence (priors), then update based on evidence quality. Wisdom is remembering that anecdotes are not denominators.",
+      related_ids: ["tool_base_rates", "bias_availability", "razor_sagan"],
+      difficulty: 1
+    },
+    {
+      prompt: "A debate is getting messy, and you suspect hidden assumptions are doing most of the work.\nBest next move?",
+      choices: ["Argument Mapping", "Option Generation", "Source Hygiene", "Fermi Estimation"],
+      answer: 0,
+      explanation: "Write the premises → conclusion and test each link. Wisdom is making implicit assumptions visible so they can be evaluated rather than smuggled.",
+      related_ids: ["tool_argument_map", "fallacy_circular_reasoning", "fallacy_red_herring"],
+      difficulty: 2
+    },
+    {
+      prompt: "You’re feeling angry and ‘certain,’ and you notice you’re about to send a message you might regret.\nBest next move?",
+      choices: ["Pause & Label", "Argument Mapping", "Definition Lock", "Base Rate Check"],
+      answer: 0,
+      explanation: "Name the emotion and the impulse, then delay action until your nervous system settles. Wisdom is separating ‘felt certainty’ from ‘earned confidence.’",
+      related_ids: ["tool_pause_label", "bias_affect_heuristic", "bias_negativity"],
+      difficulty: 1
+    },
+    {
+      prompt: "Two people agree on the facts but keep fighting because they’re using the same word to mean different things (e.g., ‘fair,’ ‘safe,’ ‘respect’).\nBest next move?",
+      choices: ["Definition Lock", "Pre-mortem", "Fermi Estimation", "Reversible Decisions"],
+      answer: 0,
+      explanation: "Write the key terms and the criteria for them. Wisdom is realizing many ‘arguments’ are hidden definition fights, and clarity beats intensity.",
+      related_ids: ["tool_definition_lock", "fallacy_equivocation", "fallacy_motte_bailey"],
+      difficulty: 1
     }
   ]
 };

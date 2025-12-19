@@ -178,7 +178,7 @@ function startSession(){
   saveStats(s);
 
   session = {
-    mode, length, difficulty,
+    mode, length: questions.length, difficulty,
     questions,
     idx: 0,
     correct: 0,
@@ -196,7 +196,7 @@ function startSession(){
 
   qs("#session").hidden = false;
   qs("#scorePill").textContent = "Score: 0";
-  qs("#sessionMeta").textContent = `Mode: ${mode} • Length: ${length} • Difficulty: ${difficulty}`;
+  qs("#sessionMeta").textContent = `Mode: ${mode} • Length: ${questions.length} • Difficulty: ${difficulty}`;
 
   renderStats();
   render();
