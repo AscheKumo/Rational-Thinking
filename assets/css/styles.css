@@ -179,7 +179,7 @@ a.link:hover{ text-decoration-color: var(--accent); }
   display:grid;
   grid-template-columns: 1.2fr .8fr;
   gap:18px;
-  align-items:start;
+  align-items:stretch;
   padding-top:10px;
 }
 .hero h1{
@@ -227,6 +227,19 @@ a.link:hover{ text-decoration-color: var(--accent); }
   display:flex;
   flex-direction:column;
   gap:14px;
+  height:100%;
+}
+
+/* Let Quick Triage fill the hero column height */
+.hero__panel > .card{ height:100%; }
+.hero__panel > .card.card--glow{
+  display:flex;
+  flex-direction:column;
+}
+.hero__panel > .card.card--glow .triage{ flex:1; }
+
+.startHere{
+  margin-top:18px;
 }
 
 .grid{
@@ -680,12 +693,15 @@ details.entry summary::-webkit-details-marker{ display:none; }
 .triage{
   display:grid;
   gap:12px;
+  align-items:start;
+  align-content:start;
 }
 .triage #triageRun{
   justify-self:center;
   width: fit-content;
   text-align:center;
   justify-content:center;
+  align-self:start;
 }
 .seg__btn{
   flex:1;
@@ -706,7 +722,8 @@ details.entry summary::-webkit-details-marker{ display:none; }
   margin-top:12px;
   display:grid;
   gap:10px;
-  max-height: 240px;
+  min-height: 140px;
+  max-height: 360px;
   overflow: auto;
   overscroll-behavior: contain;
   padding-right: 4px;
